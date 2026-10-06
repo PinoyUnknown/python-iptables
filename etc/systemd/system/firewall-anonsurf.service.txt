@@ -1,0 +1,13 @@
+[Unit]
+Description=Firewall + AnonSurf Auto Starter
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /usr/local/bin/firewall_anonsurf.py
+Restart=on-failure
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target
