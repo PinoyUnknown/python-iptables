@@ -1,0 +1,16 @@
+import subprocess
+
+def run_anonsurf():
+    try:
+        result = subprocess.run(
+            ["sudo", "anonsurf", "start"],
+            capture_output=True,
+            text=True
+        )
+        print("[anonsurf] Output:")
+        print(result.stdout)
+    except Exception as e:
+        print(f"[anonsurf] Error: {e}")
+
+if __name__ == "__main__":
+    run_anonsurf()
