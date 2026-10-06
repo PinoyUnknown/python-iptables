@@ -1,0 +1,26 @@
+import iptc
+import subprocess
+
+def apply_firewall():
+    table = iptc.Table(iptc.Table.FILTER)
+    chain = iptc.Chain(table, "INPUT")
+    table.autocommit = False
+    chain.flush()
+    chain.set_policy("DROP")
+    rule = iptc.Rule()
+    rule.protocol = "tcp"
+    match = rule.create_match("tcp")
+    match.dport = "22"
+    rule.target = iptc.Target(rule, "ACCEPT")
+    chain.insert_rule(rule)
+    table.commit()
+    table.autocommit = True
+    print("[iptables] Firewall applied.")
+
+def start_anonsurf():
+    result = subprocess.run(["sudo", "anonsurf", "start"], capture_output=True, text=True)
+    print(result.stdout)
+
+if __name__ == "__main__":
+    apply_firewall()
+    start_anonsurf()
